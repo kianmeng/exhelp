@@ -11,12 +11,16 @@ defmodule Exhelp do
     |> elem(0)
   end
 
+  def execute([exports: true], args) do
+    IEx.Helpers.exports(decompose(args |> Enum.at(0)))
+  end
+
   def execute([type: true], args) do
-    IEx.Introspection.t(String.to_atom(args |> Enum.at(0)))
+    IEx.Introspection.t(decompose(args |> Enum.at(0)))
   end
 
   def execute([behavior: true], args) do
-    IEx.Introspection.b(String.to_atom(args |> Enum.at(0)))
+    IEx.Introspection.b(decompose(args |> Enum.at(0)))
   end
 
   def execute([open: true], args) do
@@ -46,7 +50,7 @@ defmodule Exhelp do
   def main(args) do
     {opts, args, _} =
       OptionParser.parse(args,
-        strict: [open: :boolean, type: :boolean, behavior: :boolean, script: :string],
+        strict: [open: :boolean, type: :boolean, behavior: :boolean, script: :string, exports: :boolean],
         aliases: [b: :behavior, t: :type, S: :script]
       )
 
