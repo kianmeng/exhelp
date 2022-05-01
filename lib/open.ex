@@ -1,7 +1,7 @@
 defmodule Open do
-    import IEx, only: [dont_display_result: 0]
+  import IEx, only: [dont_display_result: 0]
 
-    def open(module) when is_atom(module) do
+  def open(module) when is_atom(module) do
     case open_mfa(module, :__info__, 1) do
       {source, nil, _} -> open(source)
       {_, tuple, _} -> open(tuple)
@@ -95,14 +95,15 @@ defmodule Open do
     with {_, _, dir} <- :code.get_object_code(module) do
       dir
     else
-      _ -> 
-    cmd = quote do 
-      IO.puts(:code.which(unquote(module)))
-      end
-    |> Macro.to_string()
-    {dir, 0} = 
-   System.cmd("elixir", ["-e", cmd])
-    dir |> String.trim |> String.to_charlist
+      _ ->
+        cmd =
+          quote do
+            IO.puts(:code.which(unquote(module)))
+          end
+          |> Macro.to_string()
+
+        {dir, 0} = System.cmd("elixir", ["-e", cmd])
+        dir |> String.trim() |> String.to_charlist()
     end
   end
 
@@ -149,13 +150,14 @@ defmodule Open do
   @apps @elixir_apps ++ @otp_apps
 
   defp escript_dir_hack(app) do
-    cmd = quote do 
-      IO.puts(Application.app_dir(unquote(app)))
+    cmd =
+      quote do
+        IO.puts(Application.app_dir(unquote(app)))
       end
-    |> Macro.to_string()
-    {dir, 0} = 
-   System.cmd("elixir", ["-e", cmd])
-    dir |> String.trim
+      |> Macro.to_string()
+
+    {dir, 0} = System.cmd("elixir", ["-e", cmd])
+    dir |> String.trim()
   end
 
   defp rewrite_source(module, source) do
@@ -185,8 +187,7 @@ defmodule Open do
     Path.join([lib_or_src | Enum.reverse(in_app)])
   end
 
-    defp puts_error(string) do
+  defp puts_error(string) do
     IO.puts(IEx.color(:eval_error, string))
   end
-
 end
