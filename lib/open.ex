@@ -92,6 +92,10 @@ defmodule Open do
   end
 
   defp escript_which_hack(module) do
+    with {_, _, dir} <- :code.get_object_code(module) do
+      dir
+    else
+      _ -> 
     cmd = quote do 
       IO.puts(:code.which(unquote(module)))
       end
@@ -99,6 +103,7 @@ defmodule Open do
     {dir, 0} = 
    System.cmd("elixir", ["-e", cmd])
     dir |> String.trim |> String.to_charlist
+    end
   end
 
   defp open_abstract_code(module, fun, arity, source) do
