@@ -28,14 +28,6 @@ defmodule Exhelp do
   end
 
   def start_mix() do
-    # file = get_executable() |> String.trim
-    # IO.inspect(file)
-    # next = :elixir_code_server.call({:acquire, file})
-    # IO.inspect(next)
-    # next = :elixir_compiler.file(file, fn _, _ -> :ok end)
-    # IO.inspect(next)
-    # next = :elixir_code_server.cast({:required, file})
-    # IO.inspect(next)
     if exec = get_executable() |> String.trim() do
       wrapper(fn -> Code.require_file(exec) end)
     end
@@ -52,17 +44,21 @@ defmodule Exhelp do
   end
 
   def main(args) do
-    System.argv([])
-    start_mix()
-    System.cmd("mix", ["compile"])
-
     {opts, args, _} =
       OptionParser.parse(args,
-        strict: [open: :boolean, type: :boolean, behavior: :boolean],
-        aliases: [b: :behavior, t: :type]
+        strict: [open: :boolean, type: :boolean, behavior: :boolean, script: :string],
+        aliases: [b: :behavior, t: :type, S: :script]
       )
 
+    {mix, rest} = Keyword.pop(opts, :script)
+
+    if mix do
+      System.argv([])
+      start_mix()
+      System.cmd("mix", ["compile"])
+    end
+
     IEx.configure(colors: [enabled: true])
-    execute(opts, args)
+    execute(rest, args)
   end
 end
