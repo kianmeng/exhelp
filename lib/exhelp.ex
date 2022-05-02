@@ -51,7 +51,7 @@ defmodule Exhelp do
     {opts, args, _} =
       OptionParser.parse(args,
         strict: [open: :boolean, type: :boolean, behavior: :boolean, script: :string, exports: :boolean],
-        aliases: [b: :behavior, t: :type, S: :script]
+        aliases: [b: :behavior, t: :type, S: :script, o: :open]
       )
 
     {mix, rest} = Keyword.pop(opts, :script)
