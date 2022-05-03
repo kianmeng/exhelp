@@ -11,8 +11,44 @@ defmodule Exhelp do
     |> elem(0)
   end
 
+  def search_function(string) do
+    :code.all_loaded()
+    |> Enum.map(fn {mod, _} -> mod end)
+    |> Enum.map(fn mod -> {mod, IEx.Autocomplete.exports(mod)} end)
+    |> Enum.map(fn {mod, exports} ->
+      exports
+      |> Enum.filter(fn {export, arity} -> String.starts_with?("#{export}", string) end)
+      |> Enum.map(fn {export, arity} -> "#{Inspect.Algebra.to_doc(mod, %Inspect.Opts{})}.#{export}/#{arity}" end)
+      end)
+    |> Enum.concat
+    |> Enum.each(&IO.puts/1)
+  end
+
+  def search({Kernel, fun}) do
+    search_function("#{fun}")
+  end
+
+  def search({mod, fun}) do
+    mod
+    |> IEx.Autocomplete.exports
+    |> Enum.filter(fn {export, arity} -> String.starts_with?("#{export}", "#{fun}") end)
+    |> Enum.map( fn {export, arity} -> "#{Inspect.Algebra.to_doc(mod, %Inspect.Opts{})}.#{export}/#{arity}" end)
+    |> Enum.each(&IO.puts/1)
+  end
+
+  def search(module) do
+        :code.all_loaded()
+    |> Enum.map(fn {mod, _} -> mod end)
+    |> Enum.filter(fn mod -> String.starts_with?("#{mod}", "#{module}") end)
+    |> Enum.each(&IO.inspect/1)
+  end
+
   def execute([exports: true], args) do
     IEx.Helpers.exports(decompose(args |> Enum.at(0)))
+  end
+
+  def execute([search: true], args) do
+    search(args |> Enum.at(0) |> decompose)
   end
 
   def execute([type: true], args) do
@@ -50,8 +86,8 @@ defmodule Exhelp do
   def main(args) do
     {opts, args, _} =
       OptionParser.parse(args,
-        strict: [open: :boolean, type: :boolean, behavior: :boolean, script: :string, exports: :boolean],
-        aliases: [b: :behavior, t: :type, S: :script, o: :open]
+        strict: [open: :boolean, type: :boolean, behavior: :boolean, script: :string, exports: :boolean, search: :boolean],
+        aliases: [b: :behavior, t: :type, S: :script, o: :open, s: :search]
       )
 
     {mix, rest} = Keyword.pop(opts, :script)
