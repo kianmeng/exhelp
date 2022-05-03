@@ -13,7 +13,7 @@ defmodule Exhelp.MixProject do
   end
 
   def escript() do
-    [main_module: Exhelp, strip_beams: false, embed_elixir: true]
+    [main_module: Exhelp, strip_beams: false, embed_elixir: true, name: "exh"]
   end
 
   # Run "mix help compile.app" to learn about applications.
