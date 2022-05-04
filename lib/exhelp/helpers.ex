@@ -6,7 +6,7 @@ defmodule Exhelp.Helpers do
   end
 
   def format_module(atom) do
-    Inspect.Algebra.to_doc(atom, %Inspect.Opts{})
+    Code.Identifier.inspect_as_atom(atom)
   end
 
   def exports(module) do
