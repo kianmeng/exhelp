@@ -12,6 +12,10 @@ defmodule Exhelp do
     |> elem(0)
   end
 
+  defp execute([version: true], _) do
+    IO.puts(Application.spec(:exhelp)[:vsn])
+  end
+
   defp execute([exports: true], [input]) do
     input
     |> decompose
@@ -87,7 +91,8 @@ defmodule Exhelp do
           behavior: :boolean,
           script: :string,
           exports: :boolean,
-          search: :boolean
+          search: :boolean,
+          version: :boolean
         ],
         aliases: [b: :behavior, t: :type, S: :script, o: :open, s: :search]
       )
