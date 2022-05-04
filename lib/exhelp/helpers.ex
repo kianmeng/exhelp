@@ -12,4 +12,8 @@ defmodule Exhelp.Helpers do
   def exports(module) do
    IEx.Autocomplete.exports(module)
   end
+
+  def print_exports(module) do
+    IEx.Helpers.exports(module)
+end
 end

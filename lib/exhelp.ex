@@ -11,35 +11,49 @@ defmodule Exhelp do
     |> elem(0)
   end
 
-  def execute([exports: true], args) do
-    IEx.Helpers.exports(decompose(args |> Enum.at(0)))
+  def execute([exports: true], [input]) do
+    input
+    |> decompose
+    |> Exhelp.Helpers.print_exports
   end
 
-  def execute([search: true], [arg]) do
-    arg
+  def execute([search: true], [input]) do
+    input
     |> decompose()
     |> Exhelp.Search.search()
     |> Enum.each(&IO.puts/1)
   end
 
-  def execute([type: true], args) do
-    IEx.Introspection.t(decompose(args |> Enum.at(0)))
+  def execute([type: true], [input]) do
+    input
+    |> decompose
+    |> IEx.Introspection.t()
   end
 
-  def execute([behavior: true], args) do
-    IEx.Introspection.b(decompose(args |> Enum.at(0)))
+  def execute([behavior: true], [input]) do
+    input
+    |> decompose
+    |> IEx.Introspection.b()
   end
 
-  def execute([open: true], args) do
-    Open.open(decompose(args |> Enum.at(0)))
+  def execute([open: true], [input]) do
+    input
+    |> decompose
+    |> Open.open()
   end
 
-  def execute([], args) do
-    IEx.Introspection.h(decompose(args |> Enum.at(0)))
+  def execute([], [input]) do
+    input
+    |> decompose
+    |> IEx.Introspection.h()
   end
 
   def execute([_, _ | _], _) do
     IO.puts("exh can only use one flag at a time.")
+    display_help()
+  end
+
+  def execute([], []) do
     display_help()
   end
 
