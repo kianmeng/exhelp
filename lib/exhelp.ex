@@ -63,8 +63,17 @@ defmodule Exhelp do
     Open.open(decompose(args |> Enum.at(0)))
   end
 
-  def execute(_, args) do
+  def execute([], args) do
     IEx.Introspection.h(decompose(args |> Enum.at(0)))
+  end
+
+  def execute([_, _| _], _) do
+    IO.puts("exh can only use one flag at a time.")
+    display_help()
+  end
+
+  def display_help() do
+    IO.puts("exh")
   end
 
   def start_mix() do
