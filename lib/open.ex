@@ -92,19 +92,9 @@ defmodule Open do
   end
 
   defp escript_which_hack(module) do
-    with {_, _, dir} <- :code.get_object_code(module) do
-      if !String.contains?(to_string(dir), "escript") do
-        dir
-      else
-        cmd =
-          quote do
-            IO.puts(:code.which(unquote(module)))
-          end
-          |> Macro.to_string()
-
-        {dir, 0} = System.cmd("elixir", ["-e", cmd])
-        dir |> String.trim() |> String.to_charlist()
-      end
+    with {_, _, dir} <- :code.get_object_code(module),
+         false <- String.contains?(to_string(dir), "escript") do
+      dir
     else
       _ ->
         cmd =
