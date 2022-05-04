@@ -34,8 +34,13 @@ defmodule Exhelp.Search do
   # end
 
   defp load_modules() do
-    :code.all_loaded()
-    |> Enum.map(fn {mod, _} -> mod end)
+    modules =
+      :code.all_loaded()
+      |> Enum.map(fn {mod, _} -> mod end)
+
+    (modules ++ get_modules_from_applications())
+    |> Enum.sort()
+    |> Enum.dedup()
   end
 
   defp matches_module?(module, candidate) do
@@ -48,5 +53,22 @@ defmodule Exhelp.Search do
 
   defp format_mfa(mod, fun, arity) do
     "#{Exhelp.Helpers.format_module(mod)}.#{fun}/#{arity}"
+  end
+
+  defp get_modules_from_applications do
+    for [app] <- loaded_applications(),
+        {:ok, modules} = :application.get_key(app, :modules),
+        module <- modules do
+      module
+    end
+  end
+
+  defp loaded_applications do
+    # If we invoke :application.loaded_applications/0,
+    # it can error if we don't call safe_fixtable before.
+    # Since in both cases we are reaching over the
+    # application controller internals, we choose to match
+    # for performance.
+    :ets.match(:ac_tab, {{:loaded, :"$1"}, :_})
   end
 end
