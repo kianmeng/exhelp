@@ -15,7 +15,7 @@ defmodule ExhelpTest do
   end
 
   test "search for module returns correct" do
-    assert Exhelp.Search.search(Strea) == ["Stream"]
+    assert Exhelp.Search.search(Strea) == ["Stream", "Stream.Reducers"]
   end
 
   test "search for mod and fun returns list of strings" do
