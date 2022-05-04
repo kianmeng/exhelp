@@ -36,10 +36,10 @@ defmodule ExhelpTest do
   end
 
   test "search for fun returns list of strings" do
-    assert Enum.all?(Exhelp.Search.search({Kernel, :map}), &is_binary/1)
+    assert Enum.all?(Exhelp.Search.search({:module_not_found, :map}), &is_binary/1)
   end
 
   test "search for fun returns correct" do
-    assert Exhelp.Search.search({Kernel, :make_bool}) == [":beam_types.make_boolean/0"]
+    assert Exhelp.Search.search({:module_not_found, :make_bool}) == [":beam_types.make_boolean/0"]
   end
 end

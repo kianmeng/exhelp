@@ -8,8 +8,8 @@ defmodule Exhelp.Search do
     |> Enum.map(&Exhelp.Helpers.format_module/1)
   end
 
-  def search({Kernel, fun}) when is_atom(fun) do
-    load_modules() -- [Kernel]
+  def search({:module_not_found, fun}) when is_atom(fun) do
+    load_modules() -- [:module_not_found]
     |> Enum.map(&search({&1, fun}))
     |> Enum.concat()
   end

@@ -2,7 +2,7 @@ defmodule Exhelp.Helpers do
   @moduledoc false
 
   def decompose(ast) do
-    IEx.Introspection.decompose(ast, __ENV__)
+    Exhelp.Decompose.decompose(ast, __ENV__)
   end
 
   def format_module(atom) do
