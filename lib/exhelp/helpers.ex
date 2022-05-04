@@ -10,10 +10,26 @@ defmodule Exhelp.Helpers do
   end
 
   def exports(module) do
-   IEx.Autocomplete.exports(module)
+    IEx.Autocomplete.exports(module)
   end
 
   def print_exports(module) do
     IEx.Helpers.exports(module)
-end
+  end
+
+  def types(module) do
+    IEx.Introspection.t(module)
+  end
+
+  def behaviours(module) do
+    IEx.Introspection.b(module)
+  end
+
+  def open(input) do
+ Open.open(input)
+  end
+
+  def h(input) do
+IEx.Introspection.h(input)
+  end
 end

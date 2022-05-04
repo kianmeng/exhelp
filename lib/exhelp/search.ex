@@ -9,7 +9,7 @@ defmodule Exhelp.Search do
   end
 
   def search({:module_not_found, fun}) when is_atom(fun) do
-    load_modules() -- [:module_not_found]
+    (load_modules() -- [:module_not_found])
     |> Enum.map(&search({&1, fun}))
     |> Enum.concat()
   end
@@ -32,7 +32,6 @@ defmodule Exhelp.Search do
   #   load_modules()
   #   |> search_function(fun)
   # end
-
 
   defp load_modules() do
     :code.all_loaded()

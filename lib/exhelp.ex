@@ -11,68 +11,68 @@ defmodule Exhelp do
     |> elem(0)
   end
 
-  def execute([exports: true], [input]) do
+  defp execute([exports: true], [input]) do
     input
     |> decompose
-    |> Exhelp.Helpers.print_exports
+    |> Exhelp.Helpers.print_exports()
   end
 
-  def execute([search: true], [input]) do
+  defp execute([search: true], [input]) do
     input
     |> decompose()
     |> Exhelp.Search.search()
     |> Enum.each(&IO.puts/1)
   end
 
-  def execute([type: true], [input]) do
+  defp execute([type: true], [input]) do
     input
     |> decompose
-    |> IEx.Introspection.t()
+    |> Exhelp.Helpers.types()
   end
 
-  def execute([behavior: true], [input]) do
+  defp execute([behavior: true], [input]) do
     input
     |> decompose
-    |> IEx.Introspection.b()
+    |> Exhelp.Helpers.behaviours()
   end
 
-  def execute([open: true], [input]) do
+  defp execute([open: true], [input]) do
     input
     |> decompose
-    |> Open.open()
+    |> Exhelp.Helpers.open()
   end
 
-  def execute([], [input]) do
+  defp execute([], [input]) do
     input
     |> decompose
-    |> IEx.Introspection.h()
+    |> Exhelp.Helpers.h()
   end
 
-  def execute([_, _ | _], _) do
+  defp execute([_, _ | _], _) do
     IO.puts("exh can only use one flag at a time.")
     display_help()
   end
 
-  def execute([], []) do
+  defp execute([], []) do
     display_help()
   end
 
-  def display_help() do
+  defp display_help() do
     IO.puts("exh")
   end
 
-  def start_mix() do
+  defp start_mix() do
     if exec = get_executable() |> String.trim() do
       wrapper(fn -> Code.require_file(exec) end)
     end
   end
 
-  def wrapper(fun) do
+  defp wrapper(fun) do
     _ = fun.()
     :ok
   end
 
-  def get_executable() do
+  defp get_executable() do
     {path, 0} = System.cmd("elixir", ["-e", "IO.puts(System.find_executable(\"mix\"))"])
     path
   end
