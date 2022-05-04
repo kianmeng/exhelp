@@ -26,10 +26,10 @@ defmodule Exhelp.Helpers do
   end
 
   def open(input) do
- Open.open(input)
+    Open.open(input)
   end
 
   def h(input) do
-IEx.Introspection.h(input)
+    IEx.Introspection.h(input)
   end
 end
