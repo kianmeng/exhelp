@@ -11,33 +11,6 @@ defmodule Exhelp do
     |> elem(0)
   end
 
-  defp load_modules() do
-    :code.all_loaded()
-    |> Enum.map(fn {mod, _} -> mod end)
-  end
-
-  def search_for_module_and_function({mod, fun}) do
-   Exhelp.Search.search({mod, fun})
-  end
-
-  def search_function(modules, string) do
-    Enum.map(modules, &Exhelp.Search.search({&1, string}))
-    |> Enum.concat()
-  end
-
-  def search({Kernel, fun}) do
-    load_modules()
-    |> search_function(fun)
-  end
-
-  def search({mod, fun}) do
-    search_for_module_and_function({mod, fun})
-  end
-
-  def search(module) do
-    Exhelp.Search.search(module)
-  end
-
   def execute([exports: true], args) do
     IEx.Helpers.exports(decompose(args |> Enum.at(0)))
   end
@@ -45,7 +18,7 @@ defmodule Exhelp do
   def execute([search: true], [arg]) do
     arg
     |> decompose()
-    |> search()
+    |> Exhelp.Search.search()
     |> Enum.each(&IO.puts/1)
   end
 
