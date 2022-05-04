@@ -6,7 +6,7 @@ defmodule Exhelp do
   def decompose(string) do
     string
     |> Code.string_to_quoted!()
-    |> IEx.Introspection.decompose(__ENV__)
+    |> Exhelp.Helpers.decompose
     |> Code.eval_quoted()
     |> elem(0)
   end
@@ -17,7 +17,7 @@ defmodule Exhelp do
     |> Enum.map(fn mod -> {mod, IEx.Autocomplete.exports(mod)} end)
     |> Enum.map(fn {mod, exports} ->
       exports
-      |> Enum.filter(fn {export, arity} -> String.starts_with?("#{export}", string) end)
+      |> Enum.filter(fn {export, _arity} -> String.starts_with?("#{export}", string) end)
       |> Enum.map(fn {export, arity} -> "#{Inspect.Algebra.to_doc(mod, %Inspect.Opts{})}.#{export}/#{arity}" end)
       end)
     |> Enum.concat
@@ -31,7 +31,7 @@ defmodule Exhelp do
   def search({mod, fun}) do
     mod
     |> IEx.Autocomplete.exports
-    |> Enum.filter(fn {export, arity} -> String.starts_with?("#{export}", "#{fun}") end)
+    |> Enum.filter(fn {export, _arity} -> String.starts_with?("#{export}", "#{fun}") end)
     |> Enum.map( fn {export, arity} -> "#{Inspect.Algebra.to_doc(mod, %Inspect.Opts{})}.#{export}/#{arity}" end)
     |> Enum.each(&IO.puts/1)
   end
