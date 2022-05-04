@@ -1,7 +1,7 @@
 defmodule Exhelp.Search do
   @moduledoc false
 
-  @spec search(atom() | {atom(), atom()}) :: [String.t()]
+  @spec search(module() | {module(), atom()}) :: [String.t()]
   def search(candidate) when is_atom(candidate) do
     load_modules()
     |> Enum.filter(&matches_module?(&1, candidate))

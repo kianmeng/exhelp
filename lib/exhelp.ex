@@ -3,6 +3,7 @@ defmodule Exhelp do
   hello
   """
 
+  @spec decompose(String.t()) :: module() | {module(), atom()} | mfa()
   def decompose(string) do
     string
     |> Code.string_to_quoted!()
