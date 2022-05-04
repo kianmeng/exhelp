@@ -8,4 +8,8 @@ defmodule Exhelp.Helpers do
   def format_module(atom) do
     Inspect.Algebra.to_doc(atom, %Inspect.Opts{})
   end
+
+  def exports(module) do
+   IEx.Autocomplete.exports(module)
+  end
 end

@@ -11,7 +11,7 @@ defmodule ExhelpTest do
 
   test "search for function" do
     modules = [Enum, Stream]
-    assert Exhelp.search_function(modules, "reject") == ["Enum.reject/2", "Stream.reject/2"]
+    assert Exhelp.search_function(modules, :reject) == ["Enum.reject/2", "Stream.reject/2"]
   end
 
   test "search for mod and fun" do
@@ -25,5 +25,21 @@ defmodule ExhelpTest do
 
   test "search for module returns correct" do
     assert Exhelp.Search.search(Strea) == ["Stream"]
+  end
+
+  test "search for mod and fun returns list of strings" do
+    assert Enum.all?(Exhelp.Search.search({Enum, :map}), &is_binary/1)
+  end
+
+  test "search for mod and fun returns correct" do
+    assert Exhelp.Search.search({Enum, :reject}) == ["Enum.reject/2"]
+  end
+
+  test "search for fun returns list of strings" do
+    assert Enum.all?(Exhelp.Search.search({Kernel, :map}), &is_binary/1)
+  end
+
+  test "search for fun returns correct" do
+    assert Exhelp.Search.search({Kernel, :make_bool}) == [":beam_types.make_boolean/0"]
   end
 end

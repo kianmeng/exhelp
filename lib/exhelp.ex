@@ -17,34 +17,25 @@ defmodule Exhelp do
   end
 
   def search_for_module_and_function({mod, fun}) do
-    mod
-    |> IEx.Autocomplete.exports()
-    |> Enum.filter(fn {export, _arity} -> String.starts_with?("#{export}", "#{fun}") end)
-    |> Enum.map(fn {export, arity} ->
-      "#{Inspect.Algebra.to_doc(mod, %Inspect.Opts{})}.#{export}/#{arity}"
-    end)
+   Exhelp.Search.search({mod, fun})
   end
 
   def search_function(modules, string) do
-    Enum.map(modules, &search_for_module_and_function({&1, string}))
+    Enum.map(modules, &Exhelp.Search.search({&1, string}))
     |> Enum.concat()
   end
 
   def search({Kernel, fun}) do
     load_modules()
     |> search_function(fun)
-    |> Enum.each(&IO.puts/1)
   end
 
   def search({mod, fun}) do
     search_for_module_and_function({mod, fun})
-    |> Enum.each(&IO.puts/1)
   end
 
   def search(module) do
-    load_modules()
-    |> Enum.filter(fn mod -> String.starts_with?("#{mod}", "#{module}") end)
-    |> Enum.each(&IO.inspect/1)
+    Exhelp.Search.search(module)
   end
 
   def execute([exports: true], args) do
@@ -55,6 +46,7 @@ defmodule Exhelp do
     arg
     |> decompose()
     |> search()
+    |> Enum.each(&IO.puts/1)
   end
 
   def execute([type: true], args) do
