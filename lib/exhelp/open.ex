@@ -1,4 +1,4 @@
-defmodule Open do
+defmodule Exhelp.Open do
   import IEx, only: [dont_display_result: 0]
 
   def open(module) when is_atom(module) do

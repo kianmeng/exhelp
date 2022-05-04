@@ -26,7 +26,7 @@ defmodule Exhelp.Helpers do
   end
 
   def open(input) do
-    Open.open(input)
+    Exhelp.Open.open(input)
   end
 
   def h(input) do
