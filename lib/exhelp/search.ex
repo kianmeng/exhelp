@@ -28,6 +28,17 @@ defmodule Exhelp.Search do
     |> Enum.concat()
   end
 
+  def list_all_functions() do
+    load_modules()
+    |> Enum.map(fn mod -> {mod, Exhelp.Helpers.exports(mod)} end)
+    |> Enum.map(fn {mod, exports} ->
+      Enum.map(exports, fn {export, arity} ->
+        format_mfa(mod, export, arity)
+      end)
+    end)
+    |> Enum.concat()
+  end
+
   def list_all_modules() do
     load_modules()
     |> Enum.map(&Exhelp.Helpers.format_module/1)
