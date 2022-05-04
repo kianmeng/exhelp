@@ -62,8 +62,8 @@ defmodule Exhelp do
   end
 
   defp start_mix() do
-    if exec = get_executable() |> String.trim() do
-      wrapper(fn -> Code.require_file(exec) end)
+    if exec = get_executable()  do
+      wrapper(fn -> Code.require_file(exec |> String.trim()) end)
     end
   end
 
