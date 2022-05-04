@@ -28,10 +28,10 @@ defmodule Exhelp.Search do
     |> Enum.concat()
   end
 
-  # def search({Kernel, fun}) do
-  #   load_modules()
-  #   |> search_function(fun)
-  # end
+  def list_all_modules() do
+    load_modules()
+    |> Enum.map(&Exhelp.Helpers.format_module/1)
+  end
 
   defp load_modules() do
     modules =

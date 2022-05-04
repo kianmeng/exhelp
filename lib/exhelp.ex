@@ -12,6 +12,11 @@ defmodule Exhelp do
     |> elem(0)
   end
 
+  defp execute([search: true, all_modules: true], _) do
+    Exhelp.Search.list_all_modules()
+    |> Enum.each(&IO.puts/1)
+  end
+
   defp execute([help: true], _) do
     display_help()
   end
@@ -117,7 +122,8 @@ defmodule Exhelp do
           exports: :boolean,
           search: :boolean,
           version: :boolean,
-          help: :boolean
+          help: :boolean,
+          all_modules: :boolean
         ],
         aliases: [b: :behavior, t: :type, S: :script, o: :open, s: :search, h: :help]
       )
