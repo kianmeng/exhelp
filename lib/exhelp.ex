@@ -12,6 +12,10 @@ defmodule Exhelp do
     |> elem(0)
   end
 
+  defp execute([help: true], _) do
+    display_help()
+  end
+
   defp execute([version: true], _) do
     IO.puts(Application.spec(:exhelp)[:vsn])
   end
@@ -55,6 +59,7 @@ defmodule Exhelp do
 
   defp execute([_, _ | _], _) do
     IO.puts("exh can only use one flag at a time.")
+    IO.puts("")
     display_help()
   end
 
@@ -63,11 +68,30 @@ defmodule Exhelp do
   end
 
   defp display_help() do
-    IO.puts("exh")
+    IO.puts(~S"""
+        Usage:
+          exh QUERY [OPTIONS]
+
+        Examples:
+          exh Enum.map/2
+          exh String -o
+          exh Ecto -S mix --exports
+
+        Options:
+          QUERY          Module, function, and/or arity 
+          -o, --open     Open QUERY in an editor
+          -t, --type     Displays the types defined in queried Module
+          -b, --behavior Displays the behaviors defined in queried Module
+          -s, --search   Searches for QUERY in loaded modules and exports
+              --exports  Displays the exports from queried Module
+              --version  Print Exhelp version
+          -S mix         Enables mix integration allowing exh to work on project
+                         and dependency queries.
+    """)
   end
 
   defp start_mix() do
-    if exec = get_executable()  do
+    if exec = get_executable() do
       wrapper(fn -> Code.require_file(exec |> String.trim()) end)
     end
   end
@@ -92,9 +116,10 @@ defmodule Exhelp do
           script: :string,
           exports: :boolean,
           search: :boolean,
-          version: :boolean
+          version: :boolean,
+          help: :boolean
         ],
-        aliases: [b: :behavior, t: :type, S: :script, o: :open, s: :search]
+        aliases: [b: :behavior, t: :type, S: :script, o: :open, s: :search, h: :help]
       )
 
     {mix, rest} = Keyword.pop(opts, :script)
