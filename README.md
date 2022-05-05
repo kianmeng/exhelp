@@ -7,7 +7,7 @@ Use Elixir's IEx helpers from the command line.
 Use `mix`:
 
 ```
-mix escript.install github rowlandcodes/exhelp
+mix escript.install github rowlandcodes/exhelp tag v0.1.0
 ```
 
 If you use `asdf` as a version manager, make sure to run:
