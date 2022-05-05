@@ -184,6 +184,7 @@ exh -s --all-functions | grep 9$
 
 All of the previous modes can be combined with the special flag `-S mix`,
 which will enable Exhelp to access project files and dependencies in a mix project.
+Mix integration will only work if there is an `mix.exs` file in the current directory.
 
 Calling `exh` with Mix will compile your project.
 
@@ -206,6 +207,8 @@ exh -S mix --exports Tco
 # Search for modules included in a dependency
 exh -S mix --search Zig
 ```
+
+If you set `EXHELP_ENABLE_MIX=true`, Exhelp will automatically connect to Mix when it detects a `mix.exs` in the directory.
 
 ## Thanks
 

@@ -142,8 +142,10 @@ defmodule Exhelp do
       )
 
     {mix, rest} = Keyword.pop(opts, :script)
+    mix_env = System.get_env("EXHELP_ENABLE_MIX") == "true"
+    enable_mix = (!is_nil(mix) or mix_env) and File.regular?("mix.exs")
 
-    if mix do
+    if enable_mix do
       System.argv([])
       start_mix()
       System.cmd("mix", ["compile"])
