@@ -28,6 +28,34 @@ asdf reshim
 
 ## Usage
 
+```
+Usage:
+  exh QUERY [OPTIONS]
+
+Examples:
+  exh Enum.map/2
+  exh String -o
+  exh Ecto -S mix --exports
+
+Options:
+  QUERY                  Module, function, and/or arity
+  -o, --open             Open QUERY in an editor
+  -t, --type             Displays the types defined in queried Module
+  -b, --behavior         Displays the behaviors defined in queried Module
+  -s, --search           Searches for QUERY in loaded modules and exports
+      --all-modules      Used with --search instead of a query.
+                         Lists all modules used by loaded applications.
+                         Exclusive with QUERY or --all-functions
+      --all-functions    Used with --search instead of a query.
+                         Lists all functions exported by modules in loaded
+                         applications.
+                         Exclusive with QUERY or --all-modules
+      --exports          Displays the exports from queried Module
+      --version          Print Exhelp version
+  -S mix                 Enables mix integration allowing exh to work on 
+                         project and dependency queries.
+```
+
 ### Fetch documentation
 
 Without a flag, `exh` display documentation for a query.
