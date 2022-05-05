@@ -210,6 +210,23 @@ exh -S mix --search Zig
 
 If you set `EXHELP_ENABLE_MIX=true`, Exhelp will automatically connect to Mix when it detects a `mix.exs` in the directory.
 
+## Configuration
+
+Exhelp uses IEx's `.iex.exs` file for configuration.
+Global settings will set using `IEx.configure/1` in `~/.iex.exs`,
+This is overridden if there is a local `.iex.exs` file in the project directory.
+
+If you would like to ignore `.iex.exs` configuration and use default colors,
+set `EXHELP_ENABLE_DOT_IEX=false`.
+
+```
+# Further reading: IEx's section on .iex.exs
+exh IEx
+
+# And
+exh IEx.configure/1
+```
+
 ## Thanks
 
 Inspired by [exdoc_cli](https://github.com/silbermm/exdoc_cli).
