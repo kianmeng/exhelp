@@ -97,6 +97,19 @@ exh -t Enum
 exh :erlang --type
 ```
 
+### Display behaviors from a module
+
+The flag `-b` or `--behavior` will list the behaviors that were defined in a module.
+This mimics `IEx.Helpers.b/1`.
+
+```
+# -b only works with a Module as the query
+exh -b GenServer
+
+# It also works with Erlang modules
+exh -b :gen_server
+```
+
 ## Thanks
 
 Inspired by [exdoc_cli](https://github.com/silbermm/exdoc_cli).
