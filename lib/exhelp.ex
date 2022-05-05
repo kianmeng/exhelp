@@ -79,32 +79,32 @@ defmodule Exhelp do
 
   defp display_help() do
     IO.puts(~S"""
-    Usage:
-      exh QUERY [OPTIONS]
+      Usage:
+        exh QUERY [OPTIONS]
 
-    Examples:
-      exh Enum.map/2
-      exh String -o
-      exh Ecto -S mix --exports
+      Examples:
+        exh Enum.map/2
+        exh String -o
+        exh Ecto -S mix --exports
 
-    Options:
-      QUERY                  Module, function, and/or arity 
-      -o, --open             Open QUERY in an editor
-      -t, --type             Displays the types defined in queried Module
-      -b, --behavior         Displays the behaviors defined in queried Module
-      -s, --search           Searches for QUERY in loaded modules and exports
-          --all-modules      Used with --search instead of a query.
-                             Lists all modules used by loaded applications.
-                             Exclusive with QUERY or --all-functions
-          --all-functions    Used with --search instead of a query.
-                             Lists all functions exported by modules in loaded
-                             applications.
-                             Exclusive with QUERY or --all-modules
-          --exports          Displays the exports from queried Module
-          --version          Print Exhelp version
-      -S mix                 Enables mix integration allowing exh to work on 
-                             project and dependency queries.
-  """)
+      Options:
+        QUERY                  Module, function, and/or arity 
+        -o, --open             Open QUERY in an editor
+        -t, --type             Displays the types defined in queried Module
+        -b, --behavior         Displays the behaviors defined in queried Module
+        -s, --search           Searches for QUERY in loaded modules and exports
+            --all-modules      Used with --search instead of a query.
+                               Lists all modules used by loaded applications.
+                               Exclusive with QUERY or --all-functions
+            --all-functions    Used with --search instead of a query.
+                               Lists all functions exported by modules in loaded
+                               applications.
+                               Exclusive with QUERY or --all-modules
+            --exports          Displays the exports from queried Module
+            --version          Print Exhelp version
+        -S mix                 Enables mix integration allowing exh to work on 
+                               project and dependency queries.
+    """)
   end
 
   defp start_mix() do
@@ -152,6 +152,28 @@ defmodule Exhelp do
     end
 
     IEx.configure(colors: [enabled: true])
+
+    enable_dot_iex = System.get_env("EXHELP_ENABLE_DOT_IEX") != "false"
+
+    if enable_dot_iex do
+      load_dot_iex()
+    end
+
     execute(rest, args)
+  end
+
+  defp load_dot_iex do
+    candidates = Enum.map([".iex.exs", "~/.iex.exs"], &Path.expand/1)
+    path = Enum.find(candidates, &File.regular?/1)
+
+    if !is_nil(path) do
+      eval_dot_iex(path)
+    end
+  end
+
+  defp eval_dot_iex(path) do
+    code = File.read!(path)
+    {:ok, quoted} = Code.string_to_quoted(code)
+    Code.eval_quoted(quoted)
   end
 end
