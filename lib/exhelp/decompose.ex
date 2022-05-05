@@ -1,4 +1,6 @@
 defmodule Exhelp.Decompose do
+  @moduledoc false
+
   def decompose({:/, _, [call, arity]} = term, context) do
     case Macro.decompose_call(call) do
       {_mod, :__info__, []} when arity == 1 ->
