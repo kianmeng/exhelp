@@ -28,7 +28,10 @@ asdf reshim
 
 ## Usage
 
-### Fetching documentation
+### Fetch documentation
+
+Without a flag, `exh` display documentation for a query.
+This mimics `IEx.Helpers.h/1`.
 
 ```
 # Fetch documentation for a module
@@ -79,6 +82,19 @@ export ELIXIR_EDITOR="xterm -e kak +__LINE__ __FILE__"
 
 # Now it should work
 exh -o Enum.map/2
+```
+
+### Display types from a module
+
+The flag `-t` or `--type` will list the types that were defined in a module.
+This mimics `IEx.Helpers.t/1`.
+
+```
+# -t only works with a Module as the query
+exh -t Enum
+
+# It also works with Erlang modules
+exh :erlang --type
 ```
 
 ## Thanks
