@@ -213,7 +213,7 @@ If you set `EXHELP_ENABLE_MIX=true`, Exhelp will automatically connect to Mix wh
 ## Configuration
 
 Exhelp uses IEx's `.iex.exs` file for configuration.
-Global settings will set using `IEx.configure/1` in `~/.iex.exs`,
+Global settings can be set using `IEx.configure/1` in `~/.iex.exs`,
 This is overridden if there is a local `.iex.exs` file in the project directory.
 
 If you would like to ignore `.iex.exs` configuration and use default colors,
