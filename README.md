@@ -138,6 +138,48 @@ exh -b GenServer
 exh -b :gen_server
 ```
 
+### List function and macro exports from a module
+
+The flag `--exports` will list all public functions and macros exported by a module.
+This mimics `IEx.Helpers.exports/1`.
+
+```
+# --exports only works with a Module as the query
+exh --exports Enum
+```
+
+### Search for modules or functions
+
+The flag `-s` or `--search` allows you to search for modules or functions.
+It will list all Modules or functions that begin with your query.
+
+```
+# Search for modules that start with Enu
+exh -s Enu
+
+# Search for functions in Enum that start with ma
+exh --search Enum.ma
+
+# Search for functions in any loaded module that start with ma
+exh --search ma
+``` 
+
+The `--search` flag also supports two special option flags,
+which are used in place of a query:
+
+* `--all-modules`: Which lists all loaded modules
+* `--all-functions`: Which lists every exported function from every loaded module.
+
+These flags are designed to be used with other unix tools:
+
+```
+# Enable fine-grained search with grep
+exh -s --all-modules | grep Enum
+
+# Are there any arity 9 functions?
+exh -s --all-functions | grep 9$
+```
+
 ## Thanks
 
 Inspired by [exdoc_cli](https://github.com/silbermm/exdoc_cli).
