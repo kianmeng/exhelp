@@ -180,6 +180,33 @@ exh -s --all-modules | grep Enum
 exh -s --all-functions | grep 9$
 ```
 
+### Mix Integration
+
+All of the previous modes can be combined with the special flag `-S mix`,
+which will enable Exhelp to access project files and dependencies in a mix project.
+
+Calling `exh` with Mix will compile your project.
+
+```
+# Read dependency documentation
+exh Witchcraft -S mix | less -R
+
+# Open a downloaded libary module
+exh -S mix --open Phoenix.Router
+
+# List types from a library module
+exh -S mix --type Phoenix.HTML
+
+# List behaviors from a library module
+exh -S mix --behavior Plug
+
+# Print exports from a project module
+exh -S mix --exports Tco
+
+# Search for modules included in a dependency
+exh -S mix --search Zig
+```
+
 ## Thanks
 
 Inspired by [exdoc_cli](https://github.com/silbermm/exdoc_cli).
