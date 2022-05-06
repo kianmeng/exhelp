@@ -49,7 +49,7 @@ defmodule Exhelp do
     |> Exhelp.Helpers.types()
   end
 
-  defp execute([behavior: true], [input]) do
+  defp execute([behaviour: true], [input]) do
     input
     |> decompose
     |> Exhelp.Helpers.behaviours()
@@ -91,7 +91,7 @@ defmodule Exhelp do
         QUERY                  Module, function, and/or arity 
         -o, --open             Open QUERY in an editor
         -t, --type             Displays the types defined in queried Module
-        -b, --behavior         Displays the behaviors defined in queried Module
+        -b, --behaviour        Displays the behaviours defined in queried Module
         -s, --search           Searches for QUERY in loaded modules and exports
             --all-modules      Used with --search instead of a query.
                                Lists all modules used by loaded applications.
@@ -129,7 +129,7 @@ defmodule Exhelp do
         strict: [
           open: :boolean,
           type: :boolean,
-          behavior: :boolean,
+          behaviour: :boolean,
           script: :string,
           exports: :boolean,
           search: :boolean,
@@ -138,7 +138,7 @@ defmodule Exhelp do
           all_modules: :boolean,
           all_functions: :boolean
         ],
-        aliases: [b: :behavior, t: :type, S: :script, o: :open, s: :search, h: :help]
+        aliases: [b: :behaviour, t: :type, S: :script, o: :open, s: :search, h: :help]
       )
 
     {mix, rest} = Keyword.pop(opts, :script)

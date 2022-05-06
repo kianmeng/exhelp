@@ -18,10 +18,10 @@ asdf reshim
 
 ## Features
 
-* Fetch documentation for module or function
-* Open module or function in an editor
+* Fetch documentation for a module or function
+* Open a module or function in an editor
 * Fetch types defined in a module
-* Fetch behaviors defined in a module
+* Fetch behaviours defined in a module
 * List exported functions and macros from a module
 * Search for modules or functions
 * Mix integration: Use Exhelp with projects and dependencies
@@ -41,7 +41,7 @@ Options:
   QUERY                  Module, function, and/or arity
   -o, --open             Open QUERY in an editor
   -t, --type             Displays the types defined in queried Module
-  -b, --behavior         Displays the behaviors defined in queried Module
+  -b, --behaviour        Displays the behaviours defined in queried Module
   -s, --search           Searches for QUERY in loaded modules and exports
       --all-modules      Used with --search instead of a query.
                          Lists all modules used by loaded applications.
@@ -125,9 +125,9 @@ exh -t Enum
 exh :erlang --type
 ```
 
-### Display behaviors from a module
+### Display behaviours from a module
 
-The flag `-b` or `--behavior` will list the behaviors that were defined in a module.
+The flag `-b` or `--behaviour` will list the behaviours that were defined in a module.
 This mimics `IEx.Helpers.b/1`.
 
 ```
@@ -198,8 +198,8 @@ exh -S mix --open Phoenix.Router
 # List types from a library module
 exh -S mix --type Phoenix.HTML
 
-# List behaviors from a library module
-exh -S mix --behavior Plug
+# List behaviours from a library module
+exh -S mix --behaviour Plug
 
 # Print exports from a project module
 exh -S mix --exports Tco
