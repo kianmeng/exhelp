@@ -112,7 +112,7 @@ export ELIXIR_EDITOR="xterm -e kak +__LINE__ __FILE__"
 exh -o Enum.map/2
 ```
 
-### Display types from a module
+### Display types defined in a module
 
 The flag `-t` or `--type` will list the types that were defined in a module.
 This mimics `IEx.Helpers.t/1`.
@@ -125,7 +125,7 @@ exh -t Enum
 exh :erlang --type
 ```
 
-### Display behaviours from a module
+### Display behaviours defined in a module
 
 The flag `-b` or `--behaviour` will list the behaviours that were defined in a module.
 This mimics `IEx.Helpers.b/1`.
