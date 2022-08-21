@@ -85,16 +85,16 @@ This mimics `IEx.Helpers.open/1`.
 
 ```
 # Open a module
-iex Enum -o
+exh Enum -o
 
 # Open a module at a function defintion
-iex :lists.map --open
+exh :lists.map --open
 
 # Open a module at a specific function arity
-iex Stream.map/2 -o
+exh Stream.map/2 -o
 
 # Works with Kernel functions too
-iex is_function -o
+exh is_function -o
 ```
 
 **Note**: Open works by using the `ELIXIR_EDITOR` environmental variable,
